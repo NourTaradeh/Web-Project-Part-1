@@ -13,7 +13,6 @@ function showPage(page) {
   document.getElementById('tab-' + page).classList.add('active');
 
   var pages = {
-    dashboard: pageDashboard,
     students:  pageStudents,
     courses:   pageCourses,
     prereqs:   pagePrereqs,
@@ -47,51 +46,7 @@ function registeredCount(courseId) {
   return getRegistrations().filter(function(r) { return r.courseId === courseId; }).length;
 }
 
-function stat(num, label, color) {
-  return '<div class="stat-box"><div class="stat-num ' + color + '">' + num + '</div><div class="stat-label">' + label + '</div></div>';
-}
 
-function pageDashboard() {
-  var courses  = getCourses();
-  var regs     = getRegistrations();
-  var users    = getUsers();
-  var students = users.filter(function(u) { return u.role === 'student'; });
-  var fullCount = courses.filter(function(c) { return registeredCount(c.id) >= c.capacity; }).length;
-
-  var topCourses = courses.slice().sort(function(a, b) {
-    return registeredCount(b.id) - registeredCount(a.id);
-  }).slice(0, 4);
-
-  var recent = regs.slice().reverse().slice(0, 5);
-
-  var topRows = topCourses.map(function(c) {
-    return '<tr><td>' + c.nameAr + '</td><td><span class="badge">' + registeredCount(c.id) + '</span></td></tr>';
-  }).join('');
-
-  var recentRows = recent.map(function(r) {
-    var c = getCourse(r.courseId);
-    var u = users.find(function(u) { return u.id === r.studentId; });
-    return '<tr>'
-      + '<td>' + (u ? u.name : 'طالب') + '</td>'
-      + '<td><span class="badge">' + (c ? c.code : '') + '</span></td>'
-      + '<td>' + r.date + '</td>'
-      + '</tr>';
-  }).join('');
-
-  return '<div class="page-title">لوحة المدير</div>'
-    + '<div class="stats-row">'
-    + stat(students.length, 'إجمالي الطلاب', '')
-    + stat(courses.length, 'الكورسات', '')
-    + stat(fullCount, 'كورسات ممتلئة', 'red')
-    + stat(courses.length - fullCount, 'كورسات متاحة', 'green')
-    + '</div>'
-    + '<div class="grid2">'
-    + '<div class="card"><h3>أكثر الكورسات تسجيلاً</h3><div class="table-wrap"><table>'
-    + '<tr><th>الكورس</th><th>المسجّلون</th></tr>' + topRows + '</table></div></div>'
-    + '<div class="card"><h3>آخر التسجيلات</h3><div class="table-wrap"><table>'
-    + '<tr><th>الطالب</th><th>الكورس</th><th>التاريخ</th></tr>' + recentRows + '</table></div></div>'
-    + '</div>';
-}
 
 function pageStudents(filter) {
   filter = filter || '';
@@ -402,4 +357,4 @@ function focusInput(id) {
   if (inp) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
 }
 
-showPage('dashboard');
+showPage('students');

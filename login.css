@@ -5,8 +5,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: white;
+  background-color: #fff5f5;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -26,13 +25,6 @@ body {
   padding: 40px 32px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-}
-
-.logo {
-  font-size: 48px;
-  text-align: center;
-  margin-bottom: 12px;
 }
 
 h1 {
@@ -79,7 +71,6 @@ input[type="text"] {
   border: 1.5px solid #e5e7eb;
   border-radius: 8px;
   font-size: 15px;
-  font-family: inherit;
   color: #222;
   transition: border-color 0.2s;
   margin-bottom: 16px;
@@ -90,54 +81,22 @@ input:focus {
   border-color: #667eea;
 }
 
-.pass-wrap {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.pass-wrap input {
-  margin-bottom: 0;
-  padding-left: 44px;
-}
-
-.eye-btn {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  padding: 4px;
-  opacity: 0.6;
-}
-
-.eye-btn:hover {
-  opacity: 1;
-}
-
 .btn-login {
   width: 100%;
   padding: 13px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background-color: #667eea;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  font-family: inherit;
   cursor: pointer;
   font-weight: bold;
   transition: opacity 0.2s, transform 0.1s;
 }
 
 .btn-login:hover {
-  opacity: 0.9;
-}
-
-.btn-login:active {
-  transform: scale(0.98);
-}
+  background-color:deepskyblue;
+} 
 
 .hint {
   margin-top: 24px;

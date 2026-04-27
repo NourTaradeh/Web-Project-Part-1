@@ -15,15 +15,12 @@
       <p>أدخل بياناتك للدخول إلى حسابك</p>
 
       <div class="error" id="errorMsg"></div>
-      <form action="">
+      <form action="" onsubmit="return false">
         <label for="email">البريد الإلكتروني</label>
-        <input type="email" id="email" placeholder="example@ppu.edu.ps" autocomplete="username">
+        <input type="email" id="email" placeholder="example@ppu.edu.ps" required>
 
         <label for="password">كلمة المرور</label>
-        <div class="pass-wrap">
-          <input type="password" id="password" placeholder="كلمة المرور" autocomplete="current-password">
-          <button type="button" class="eye-btn" onclick="togglePass()">&#128065;</button>
-        </div>
+        <input type="password" id="password" placeholder="كلمة المرور" required>
 
         <button class="btn-login" onclick="doLogin()">دخول</button>
       </form>

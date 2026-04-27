@@ -10,7 +10,6 @@ function showPage(page) {
   document.getElementById('tab-' + page).classList.add('active');
 
   var pages = {
-    dashboard: pageDashboard,
     courses:   pageCourses,
     mycourses: pageMyCourses
   };
@@ -68,35 +67,6 @@ function progressColor(pct) {
   return 'fill-green';
 }
 
-function pageDashboard() {
-  var courses   = getCourses();
-  var myRegs    = getMyRegs();
-  var completed = getMyCompleted();
-
-  var rows = myRegs.map(function(r) {
-    var c = getCourse(r.courseId);
-    return '<tr>'
-      + '<td><span class="course-code">' + c.code + '</span></td>'
-      + '<td>' + c.nameAr + '</td>'
-      + '<td>' + c.credits + '</td>'
-      + '<td>' + r.date + '</td>'
-      + '</tr>';
-  }).join('');
-
-  var table = myRegs.length === 0
-    ? '<div class="empty">لا يوجد كورسات مسجلة بعد</div>'
-    : '<div class="table-wrap"><table>'
-    + '<tr><th>الكود</th><th>الكورس</th><th>الساعات</th><th>التاريخ</th></tr>'
-    + rows + '</table></div>';
-
-  return '<div class="page-title">مرحبا، ' + currentUser.name + '</div>'
-    + '<div class="stats-row">'
-    + '<div class="stat-box"><div class="stat-num">' + myRegs.length + '</div><div class="stat-label">كورسات مسجلة</div></div>'
-    + '<div class="stat-box"><div class="stat-num">' + courses.length + '</div><div class="stat-label">كورسات متاحة</div></div>'
-    + '<div class="stat-box"><div class="stat-num">' + completed.length + '</div><div class="stat-label">كورسات مكتملة</div></div>'
-    + '</div>'
-    + '<div class="card"><h3>آخر التسجيلات</h3>' + table + '</div>';
-}
 
 function pageCourses(filter) {
   filter = filter || '';
@@ -239,4 +209,4 @@ function handleOverlayClick(e) {
   if (e.target === document.getElementById('confirmOverlay')) closeConfirm();
 }
 
-showPage('dashboard');
+showPage('courses');
