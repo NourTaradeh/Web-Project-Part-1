@@ -68,45 +68,46 @@ function dashStat(num, label) {
 }
 
 
-filter = filter || '';
-var q = filter.toLowerCase();
-var students = getUsers().filter(function (u) {
-  return u.role === 'student' && (
-    u.name.toLowerCase().includes(q) ||
-    u.email.toLowerCase().includes(q) ||
-    (u.studentNum || '').includes(q)
-  );
-});
+function pageStudents(filter) {
+  filter = filter || '';
+  var q = filter.toLowerCase();
+  var students = getUsers().filter(function (u) {
+    return u.role === 'student' && (
+      u.name.toLowerCase().includes(q) ||
+      u.email.toLowerCase().includes(q) ||
+      (u.studentNum || '').includes(q)
+    );
+  });
 
-var rows = students.map(function (s) {
-  var regsCount = getRegistrations().filter(function (r) { return r.studentId === s.id; }).length;
-  return '<tr>'
-    + '<td>' + s.name + '</td>'
-    + '<td>' + (s.studentNum || '-') + '</td>'
-    + '<td>' + s.email + '</td>'
-    + '<td>' + (s.major || '-') + '</td>'
-    + '<td><span class="badge">' + regsCount + '</span></td>'
-    + '<td><div class="actions">'
-    + '<button class="btn btn-blue btn-sm" onclick="openEditStudent(' + s.id + ')">تعديل</button>'
-    + '<button class="btn btn-red btn-sm" onclick="deleteStudent(' + s.id + ')">حذف</button>'
-    + '</div></td>'
-    + '</tr>';
-}).join('');
+  var rows = students.map(function (s) {
+    var regsCount = getRegistrations().filter(function (r) { return r.studentId === s.id; }).length;
+    return '<tr>'
+      + '<td>' + s.name + '</td>'
+      + '<td>' + (s.studentNum || '-') + '</td>'
+      + '<td>' + s.email + '</td>'
+      + '<td>' + (s.major || '-') + '</td>'
+      + '<td><span class="badge">' + regsCount + '</span></td>'
+      + '<td><div class="actions">'
+      + '<button class="btn btn-blue btn-sm" onclick="openEditStudent(' + s.id + ')">تعديل</button>'
+      + '<button class="btn btn-red btn-sm" onclick="deleteStudent(' + s.id + ')">حذف</button>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
 
-var table = students.length === 0
-  ? '<div class="empty">لا يوجد طلاب</div>'
-  : '<div class="table-wrap"><table>'
-  + '<tr><th>الاسم</th><th>الرقم الجامعي</th><th>البريد</th><th>التخصص</th><th>كورسات</th><th>إجراء</th></tr>'
-  + rows + '</table></div>';
+  var table = students.length === 0
+    ? '<div class="empty">لا يوجد طلاب</div>'
+    : '<div class="table-wrap"><table>'
+    + '<tr><th>الاسم</th><th>الرقم الجامعي</th><th>البريد</th><th>التخصص</th><th>كورسات</th><th>إجراء</th></tr>'
+    + rows + '</table></div>';
 
-return '<div class="top-bar">'
-  + '<div class="page-title">إدارة الطلاب</div>'
-  + '<button class="btn btn-purple" onclick="openAddStudent()">+ إضافة طالب</button>'
-  + '</div>'
-  + '<input class="search-bar" placeholder="ابحث بالاسم أو البريد أو الرقم الجامعي..."'
-  + ' id="studentSearch" oninput="searchStudents()" value="' + filter + '">'
-  + table;
-
+  return '<div class="top-bar">'
+    + '<div class="page-title">إدارة الطلاب</div>'
+    + '<button class="btn btn-purple" onclick="openAddStudent()">+ إضافة طالب</button>'
+    + '</div>'
+    + '<input class="search-bar" placeholder="ابحث بالاسم أو البريد أو الرقم الجامعي..."'
+    + ' id="studentSearch" oninput="searchStudents()" value="' + filter + '">'
+    + table;
+}
 
 function searchStudents() {
   var val = document.getElementById('studentSearch').value;

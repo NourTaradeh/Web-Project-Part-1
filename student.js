@@ -85,54 +85,55 @@ function dashStat(num, label) {
 }
 
 
-filter = filter || '';
-var q = filter.toLowerCase();
+function pageCourses(filter) {
+  filter = filter || '';
+  var q = filter.toLowerCase();
 
-var filtered = getCourses().filter(function (c) {
-  return c.nameAr.toLowerCase().includes(q) || c.code.toLowerCase().includes(q);
-});
+  var filtered = getCourses().filter(function (c) {
+    return c.nameAr.toLowerCase().includes(q) || c.code.toLowerCase().includes(q);
+  });
 
-var cards = filtered.map(function (c) {
-  var cnt = registeredCount(c.id);
-  var pct = Math.round(cnt / c.capacity * 100);
-  var seatsLeft = c.capacity - cnt;
-  var isFull = cnt >= c.capacity;
-  var alrReg = isRegistered(c.id);
-  var prereqOk = hasPrereqs(c);
+  var cards = filtered.map(function (c) {
+    var cnt = registeredCount(c.id);
+    var pct = Math.round(cnt / c.capacity * 100);
+    var seatsLeft = c.capacity - cnt;
+    var isFull = cnt >= c.capacity;
+    var alrReg = isRegistered(c.id);
+    var prereqOk = hasPrereqs(c);
 
-  var prereqText = c.prereqs.length === 0
-    ? 'لا يوجد متطلبات'
-    : 'متطلب: ' + c.prereqs.map(function (pid) {
-      var p = getCourse(pid);
-      return p ? p.code : '';
-    }).join(', ');
+    var prereqText = c.prereqs.length === 0
+      ? 'لا يوجد متطلبات'
+      : 'متطلب: ' + c.prereqs.map(function (pid) {
+        var p = getCourse(pid);
+        return p ? p.code : '';
+      }).join(', ');
 
-  var btn;
-  if (alrReg) btn = '<button class="btn btn-full" disabled>مسجل</button>';
-  else if (isFull) btn = '<button class="btn btn-full" disabled>مكتمل</button>';
-  else if (!prereqOk) btn = '<button class="btn btn-full" disabled>المتطلبات ناقصة</button>';
-  else btn = '<button class="btn btn-green btn-full" onclick="registerCourse(' + c.id + ')">تسجيل</button>';
+    var btn;
+    if (alrReg) btn = '<button class="btn btn-full" disabled>مسجل</button>';
+    else if (isFull) btn = '<button class="btn btn-full" disabled>مكتمل</button>';
+    else if (!prereqOk) btn = '<button class="btn btn-full" disabled>المتطلبات ناقصة</button>';
+    else btn = '<button class="btn btn-green btn-full" onclick="registerCourse(' + c.id + ')">تسجيل</button>';
 
-  return '<div class="course-card">'
-    + '<span class="course-code">' + c.code + '</span>'
-    + '<div class="course-name">' + c.nameAr + '</div>'
-    + '<div class="course-desc">' + c.desc + '</div>'
-    + '<div>'
-    + '<div class="progress-label">' + seatsLeft + ' / ' + c.capacity + ' مقعد متبقي</div>'
-    + '<div class="progress-bar"><div class="progress-fill ' + progressColor(pct) + '" style="width:' + pct + '%"></div></div>'
-    + '</div>'
-    + '<div class="course-prereq">' + prereqText + '</div>'
-    + btn
-    + '</div>';
-}).join('');
+    return '<div class="course-card">'
+      + '<span class="course-code">' + c.code + '</span>'
+      + '<div class="course-name">' + c.nameAr + '</div>'
+      + '<div class="course-desc">' + c.desc + '</div>'
+      + '<div>'
+      + '<div class="progress-label">' + seatsLeft + ' / ' + c.capacity + ' مقعد متبقي</div>'
+      + '<div class="progress-bar"><div class="progress-fill ' + progressColor(pct) + '" style="width:' + pct + '%"></div></div>'
+      + '</div>'
+      + '<div class="course-prereq">' + prereqText + '</div>'
+      + btn
+      + '</div>';
+  }).join('');
 
-return '<div class="page-title">الكورسات المتاحة</div>'
-  + '<input class="search-bar" placeholder="ابحث باسم الكورس أو الكود..."'
-  + ' id="coursesSearch" oninput="searchCourses()" value="' + filter + '">'
-  + (filtered.length === 0
-    ? '<div class="empty">لا يوجد نتائج</div>'
-    : '<div class="courses-grid">' + cards + '</div>');
-
+  return '<div class="page-title">الكورسات المتاحة</div>'
+    + '<input class="search-bar" placeholder="ابحث باسم الكورس أو الكود..."'
+    + ' id="coursesSearch" oninput="searchCourses()" value="' + filter + '">'
+    + (filtered.length === 0
+      ? '<div class="empty">لا يوجد نتائج</div>'
+      : '<div class="courses-grid">' + cards + '</div>');
+}
 
 function searchCourses() {
   var val = document.getElementById('coursesSearch').value;
