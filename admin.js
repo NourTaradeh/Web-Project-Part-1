@@ -163,9 +163,9 @@ function saveStudent() {
 
   if (editingStudentId) {
     var idx = users.findIndex(function (u) { return u.id === editingStudentId; });
-    Object.assign(users[idx], { name, email, password: pass, studentNum: num, major, year });
+    Object.assign(users[idx], { name: name, email: email, password: pass, studentNum: num, major: major, year: year });
   } else {
-    users.push({ id: Date.now(), role: 'student', name, email, password: pass, studentNum: num, major, year });
+    users.push({ id: Date.now(), role: 'student', name: name, email: email, password: pass, studentNum: num, major: major, year: year });
   }
 
   saveUsers(users);
@@ -245,9 +245,9 @@ function saveCourse() {
   var courses = getCourses();
   if (editingCourseId) {
     var idx = courses.findIndex(function (c) { return c.id === editingCourseId; });
-    Object.assign(courses[idx], { code, nameAr, desc, credits, capacity });
+    Object.assign(courses[idx], { code: code, nameAr: nameAr, desc: desc, credits: credits, capacity: capacity });
   } else {
-    courses.push({ id: Date.now(), code, nameAr, desc, credits, capacity, prereqs: [] });
+    courses.push({ id: Date.now(), code: code, nameAr: nameAr, desc: desc, credits: credits, capacity: capacity, prereqs: [] });
   }
 
   saveCourses(courses);

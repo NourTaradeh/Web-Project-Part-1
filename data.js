@@ -72,7 +72,6 @@ function requireLogin(expectedRole) {
     return null;
   }
   if (expectedRole && user.role !== expectedRole) {
-
     if (user.role === 'admin') window.location.href = 'admin.html';
     else window.location.href = 'student.html';
     return null;

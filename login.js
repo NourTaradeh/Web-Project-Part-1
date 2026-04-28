@@ -5,10 +5,9 @@ if (user) {
 
 function doLogin() {
   var email = document.getElementById('email').value;
-  var pass  = document.getElementById('password').value;
+  var pass = document.getElementById('password').value;
 
-
-  var found = getUsers().find(function(u) {
+  var found = getUsers().find(function (u) {
     return u.email.toLowerCase() === email && u.password === pass;
   });
 
@@ -27,10 +26,10 @@ function showError(msg) {
   el.classList.add('show');
 }
 
-document.getElementById('email').addEventListener('input', function() {
+document.getElementById('email').addEventListener('input', function () {
   document.getElementById('errorMsg').classList.remove('show');
 });
 
-document.getElementById('password').addEventListener('input', function() {
+document.getElementById('password').addEventListener('input', function () {
   document.getElementById('errorMsg').classList.remove('show');
 });

@@ -40,24 +40,16 @@
         <button onclick="closeCourseModal()">&#x2715;</button>
       </div>
       <div class="modal-body">
-        <form action="">
-          <label>الكود *</label>
-          <input type="text" id="fCode" placeholder="5050">
-          <label>الاسم *</label>
-          <input type="text" id="fNameAr" placeholder="اسم الكورس">
-          <label>الوصف</label>
-          <input type="text" id="fDesc" placeholder="وصف مختصر">
-        </form>
-        <div class="row2">
-          <div>
-            <label>الساعات</label>
-            <input type="number" id="fCredits" value="3" min="1" max="6">
-          </div>
-          <div>
-            <label>السعة</label>
-            <input type="number" id="fCapacity" value="30" min="1">
-          </div>
-        </div>
+        <label>الكود *</label>
+        <input type="text" id="fCode" placeholder="5050">
+        <label>الاسم *</label>
+        <input type="text" id="fNameAr" placeholder="اسم الكورس">
+        <label>الوصف</label>
+        <input type="text" id="fDesc" placeholder="وصف مختصر">
+        <label>الساعات</label>
+        <input type="number" id="fCredits" value="3" min="1" max="6">
+        <label>السعة</label>
+        <input type="number" id="fCapacity" value="30" min="1">
       </div>
       <div class="modal-foot">
         <button class="btn btn-gray" onclick="closeCourseModal()">إلغاء</button>
@@ -73,32 +65,24 @@
         <button onclick="closeStudentModal()">&#x2715;</button>
       </div>
       <div class="modal-body">
-        <form action="">
-          <label>الاسم الكامل *</label>
-          <input type="text" id="sName" placeholder="اسم الطالب">
-          <label>البريد الإلكتروني *</label>
-          <input type="email" id="sEmail" placeholder="student@ppu.edu.ps">
-          <label>كلمة المرور *</label>
-          <input type="text" id="sPass" placeholder="كلمة المرور">
-          <label>الرقم الجامعي *</label>
-          <input type="text" id="sNum" placeholder="231111">
-          <div class="row2">
-            <div>
-              <label>التخصص</label>
-              <input type="text" id="sMajor" placeholder="علم الحاسوب">
-            </div>
-            <div>
-              <label>السنة</label>
-              <select id="sYear">
-                <option value="1">السنة 1</option>
-                <option value="2">السنة 2</option>
-                <option value="3" selected>السنة 3</option>
-                <option value="4">السنة 4</option>
-                <option value="5">السنة 5</option>
-              </select>
-            </div>
-          </div>
-        </form>
+        <label>الاسم الكامل *</label>
+        <input type="text" id="sName" placeholder="اسم الطالب">
+        <label>البريد الإلكتروني *</label>
+        <input type="email" id="sEmail" placeholder="student@ppu.edu.ps">
+        <label>كلمة المرور *</label>
+        <input type="text" id="sPass" placeholder="كلمة المرور">
+        <label>الرقم الجامعي *</label>
+        <input type="text" id="sNum" placeholder="231111">
+        <label>التخصص</label>
+        <input type="text" id="sMajor" placeholder="علم الحاسوب">
+        <label>السنة</label>
+        <select id="sYear">
+          <option value="1">السنة 1</option>
+          <option value="2">السنة 2</option>
+          <option value="3" selected>السنة 3</option>
+          <option value="4">السنة 4</option>
+          <option value="5">السنة 5</option>
+        </select>
       </div>
 
       <div class="modal-foot">
