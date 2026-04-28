@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>صفحة الطالب - نظام الكورسات</title>
   <link rel="stylesheet" href="student.css">
 </head>
+
 <body>
 
   <nav class="navbar">
     <div class="nav-brand">CourseHub</div>
 
     <div class="nav-tabs" id="navTabs">
-      <div class="nav-tab active" id="tab-courses"   onclick="showPage('courses')">الكورسات</div>
+      <div class="nav-tab active" id="tab-dashboard" onclick="showPage('dashboard')">الرئيسية</div>
+      <div class="nav-tab" id="tab-courses" onclick="showPage('courses')">الكورسات</div>
       <div class="nav-tab" id="tab-mycourses" onclick="showPage('mycourses')">كورساتي</div>
     </div>
 
     <div class="nav-left">
       <span class="nav-username" id="navUser">الطالب</span>
       <button class="btn-logout" onclick="logout()">خروج</button>
-      <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
     </div>
   </nav>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-tab" onclick="showPage('courses')">الكورسات</div>
-    <div class="mobile-tab" onclick="showPage('mycourses')">كورساتي</div>
-  </div>
 
   <main class="main">
     <div id="alertBox" class="alert-box"></div>
@@ -47,4 +45,5 @@
   <script src="data.js"></script>
   <script src="student.js"></script>
 </body>
+
 </html>

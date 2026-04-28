@@ -95,8 +95,8 @@ input:focus {
 }
 
 .btn-login:hover {
-  background-color:deepskyblue;
-} 
+  background-color: deepskyblue;
+}
 
 .hint {
   margin-top: 24px;
@@ -107,10 +107,4 @@ input:focus {
   color: #555;
   line-height: 1.8;
   border: 1px solid #dbeafe;
-}
-
-@media (max-width: 480px) {
-  .box {
-    padding: 28px 20px;
-  }
 }

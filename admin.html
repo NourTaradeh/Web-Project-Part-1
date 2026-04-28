@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة المدير - نظام الكورسات</title>
   <link rel="stylesheet" href="admin.css">
 </head>
+
 <body>
 
   <nav class="navbar">
     <div class="nav-brand">CourseHub</div>
 
     <div class="nav-tabs" id="navTabs">
-      <div class="nav-tab active" id="tab-students"  onclick="showPage('students')">الطلاب</div>
-      <div class="nav-tab" id="tab-courses"   onclick="showPage('courses')">الكورسات</div>
-      <div class="nav-tab" id="tab-prereqs"   onclick="showPage('prereqs')">المتطلبات</div>
-      <div class="nav-tab" id="tab-regs"      onclick="showPage('regs')">التسجيلات</div>
+      <div class="nav-tab active" id="tab-dashboard" onclick="showPage('dashboard')">الرئيسية</div>
+      <div class="nav-tab" id="tab-students" onclick="showPage('students')">الطلاب</div>
+      <div class="nav-tab" id="tab-courses" onclick="showPage('courses')">الكورسات</div>
+      <div class="nav-tab" id="tab-prereqs" onclick="showPage('prereqs')">المتطلبات</div>
+      <div class="nav-tab" id="tab-regs" onclick="showPage('regs')">التسجيلات</div>
     </div>
 
     <div class="nav-left">
       <span class="nav-username" id="navUser">المدير</span>
       <button class="btn-logout" onclick="logout()">خروج</button>
-      <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
     </div>
   </nav>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-tab" onclick="showPage('students')">الطلاب</div>
-    <div class="mobile-tab" onclick="showPage('courses')">الكورسات</div>
-    <div class="mobile-tab" onclick="showPage('prereqs')">المتطلبات</div>
-    <div class="mobile-tab" onclick="showPage('regs')">التسجيلات</div>
-  </div>
 
   <main class="main">
     <div id="alertBox" class="alert-box"></div>
@@ -44,12 +40,14 @@
         <button onclick="closeCourseModal()">&#x2715;</button>
       </div>
       <div class="modal-body">
-        <label>الكود *</label>
-        <input type="text" id="fCode" placeholder="5050">
-        <label>الاسم *</label>
-        <input type="text" id="fNameAr" placeholder="اسم الكورس">
-        <label>الوصف</label>
-        <input type="text" id="fDesc" placeholder="وصف مختصر">
+        <form action="">
+          <label>الكود *</label>
+          <input type="text" id="fCode" placeholder="5050">
+          <label>الاسم *</label>
+          <input type="text" id="fNameAr" placeholder="اسم الكورس">
+          <label>الوصف</label>
+          <input type="text" id="fDesc" placeholder="وصف مختصر">
+        </form>
         <div class="row2">
           <div>
             <label>الساعات</label>
@@ -75,30 +73,34 @@
         <button onclick="closeStudentModal()">&#x2715;</button>
       </div>
       <div class="modal-body">
-        <label>الاسم الكامل *</label>
-        <input type="text" id="sName" placeholder="اسم الطالب">
-        <label>البريد الإلكتروني *</label>
-        <input type="email" id="sEmail" placeholder="student@ppu.edu.ps">
-        <label>كلمة المرور *</label>
-        <input type="text" id="sPass" placeholder="كلمة المرور">
-        <label>الرقم الجامعي *</label>
-        <input type="text" id="sNum" placeholder="231111">
-        <div class="row2">
-          <div>
-            <label>التخصص</label>
-            <input type="text" id="sMajor" placeholder="علم الحاسوب">
+        <form action="">
+          <label>الاسم الكامل *</label>
+          <input type="text" id="sName" placeholder="اسم الطالب">
+          <label>البريد الإلكتروني *</label>
+          <input type="email" id="sEmail" placeholder="student@ppu.edu.ps">
+          <label>كلمة المرور *</label>
+          <input type="text" id="sPass" placeholder="كلمة المرور">
+          <label>الرقم الجامعي *</label>
+          <input type="text" id="sNum" placeholder="231111">
+          <div class="row2">
+            <div>
+              <label>التخصص</label>
+              <input type="text" id="sMajor" placeholder="علم الحاسوب">
+            </div>
+            <div>
+              <label>السنة</label>
+              <select id="sYear">
+                <option value="1">السنة 1</option>
+                <option value="2">السنة 2</option>
+                <option value="3" selected>السنة 3</option>
+                <option value="4">السنة 4</option>
+                <option value="5">السنة 5</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label>السنة</label>
-            <select id="sYear">
-              <option value="1">السنة 1</option>
-              <option value="2">السنة 2</option>
-              <option value="3" selected>السنة 3</option>
-              <option value="4">السنة 4</option>
-            </select>
-          </div>
-        </div>
+        </form>
       </div>
+
       <div class="modal-foot">
         <button class="btn btn-gray" onclick="closeStudentModal()">إلغاء</button>
         <button class="btn btn-purple" onclick="saveStudent()">حفظ</button>
@@ -109,4 +111,5 @@
   <script src="data.js"></script>
   <script src="admin.js"></script>
 </body>
+
 </html>
