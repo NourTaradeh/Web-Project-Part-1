@@ -106,7 +106,7 @@ return '<div class="top-bar">'
   + '<input class="search-bar" placeholder="ابحث بالاسم أو البريد أو الرقم الجامعي..."'
   + ' id="studentSearch" oninput="searchStudents()" value="' + filter + '">'
   + table;
-}
+
 
 function searchStudents() {
   var val = document.getElementById('studentSearch').value;

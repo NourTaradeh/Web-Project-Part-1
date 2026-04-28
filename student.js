@@ -132,7 +132,7 @@ return '<div class="page-title">الكورسات المتاحة</div>'
   + (filtered.length === 0
     ? '<div class="empty">لا يوجد نتائج</div>'
     : '<div class="courses-grid">' + cards + '</div>');
-}
+
 
 function searchCourses() {
   var val = document.getElementById('coursesSearch').value;
