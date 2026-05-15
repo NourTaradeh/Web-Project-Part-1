@@ -35,7 +35,7 @@ $result = $conn->query($sql);
     <a class="nav-tab active" href="my_courses.php">كورساتي</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -43,7 +43,7 @@ $result = $conn->query($sql);
 <main class="main">
 
   <?php if (isset($_GET['msg'])) { ?>
-    <div class="alert-box alert-success"><?php echo $_GET['msg']; ?></div>
+    <div class="alert-box alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
   <?php } ?>
 
   <div class="page-title">كورساتي</div>
@@ -67,12 +67,12 @@ $result = $conn->query($sql);
         </tr>
         <?php while ($row = $result->fetch_assoc()) { ?>
           <tr>
-            <td><span class="course-code"><?php echo $row['code']; ?></span></td>
-            <td><?php echo $row['name_ar']; ?></td>
-            <td><?php echo $row['credits']; ?></td>
-            <td><?php echo $row['date']; ?></td>
+            <td><span class="course-code"><?php echo htmlspecialchars($row['code']); ?></span></td>
+            <td><?php echo htmlspecialchars($row['name_ar']); ?></td>
+            <td><?php echo (int)$row['credits']; ?></td>
+            <td><?php echo htmlspecialchars($row['date']); ?></td>
             <td>
-              <a href="drop_course.php?reg_id=<?php echo $row['reg_id']; ?>" onclick="return confirm('هل أنت متأكد من الغاء تسجيلك في <?php echo $row['name_ar']; ?>؟')">
+              <a href="drop_course.php?reg_id=<?php echo $row['reg_id']; ?>" onclick="return confirm('هل أنت متأكد من الغاء تسجيلك في <?php echo htmlspecialchars($row['name_ar']); ?>؟')">
                 <button class="btn btn-red btn-sm">الغاء التسجيل</button>
               </a>
             </td>

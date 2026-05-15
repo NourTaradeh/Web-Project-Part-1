@@ -24,7 +24,7 @@ while ($row = $courses_result->fetch_assoc()) {
     $courses[] = $row;
 }
 
-$selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
+$selected_id = isset($_GET['course_id']) ? (int)$_GET['course_id'] : '';
 ?>
 
 <nav class="navbar">
@@ -37,7 +37,7 @@ $selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -45,7 +45,7 @@ $selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
 <main class="main">
 
   <?php if (isset($_GET['msg'])) { ?>
-    <div class="alert-box alert-success"><?php echo $_GET['msg']; ?></div>
+    <div class="alert-box alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
   <?php } ?>
 
   <div class="page-title">إدارة المتطلبات</div>
@@ -57,7 +57,7 @@ $selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
         <option value="">-- اختر كورس --</option>
         <?php foreach ($courses as $c) { ?>
           <option value="<?php echo $c['id']; ?>" <?php if($selected_id == $c['id']) echo 'selected'; ?>>
-            <?php echo $c['code'] . ' - ' . $c['name_ar']; ?>
+            <?php echo htmlspecialchars($c['code'] . ' - ' . $c['name_ar']); ?>
           </option>
         <?php } ?>
       </select>
@@ -81,14 +81,14 @@ $selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
     ?>
 
     <div class="card">
-      <h3>متطلبات: <?php echo $sel_course['name_ar']; ?></h3>
+      <h3>متطلبات: <?php echo htmlspecialchars($sel_course['name_ar']); ?></h3>
 
       <?php if (count($prereqs) == 0) { ?>
         <div style="color:#9ca3af;padding:8px 0">لا يوجد متطلبات</div>
       <?php } else { ?>
         <?php foreach ($prereqs as $p) { ?>
           <div class="prereq-item">
-            <span><span class="badge"><?php echo $p['code']; ?></span> <?php echo $p['name_ar']; ?></span>
+            <span><span class="badge"><?php echo htmlspecialchars($p['code']); ?></span> <?php echo htmlspecialchars($p['name_ar']); ?></span>
             <a href="delete_prereq.php?course_id=<?php echo $selected_id; ?>&prereq_id=<?php echo $p['id']; ?>" onclick="return confirm('حذف هذا المتطلب؟')">
               <button class="btn btn-red btn-sm">حذف</button>
             </a>
@@ -109,7 +109,7 @@ $selected_id = isset($_GET['course_id']) ? $_GET['course_id'] : '';
           <select name="prereq_id" style="flex:1;min-width:160px;padding:9px;border:1.5px solid #e5e7eb;border-radius:7px;font-family:inherit">
             <option value="">-- اختر كورس للإضافة --</option>
             <?php foreach ($available as $a) { ?>
-              <option value="<?php echo $a['id']; ?>"><?php echo $a['code'] . ' - ' . $a['name_ar']; ?></option>
+              <option value="<?php echo $a['id']; ?>"><?php echo htmlspecialchars($a['code'] . ' - ' . $a['name_ar']); ?></option>
             <?php } ?>
           </select>
           <button type="submit" class="btn btn-purple">+ إضافة</button>

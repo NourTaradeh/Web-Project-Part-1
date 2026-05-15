@@ -38,25 +38,25 @@ $completed_count = $completed->fetch_assoc()['cnt'];
     <a class="nav-tab" href="my_courses.php">كورساتي</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
 
 <main class="main">
-  <div class="page-title">مرحباً، <?php echo $_SESSION['name']; ?></div>
+  <div class="page-title">مرحباً، <?php echo htmlspecialchars($_SESSION['name']); ?></div>
 
   <div class="dash-stats">
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $my_regs_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$my_regs_count; ?></div>
       <div class="dash-stat-label">كورسات مسجلة</div>
     </div>
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $all_courses_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$all_courses_count; ?></div>
       <div class="dash-stat-label">كورسات متاحة</div>
     </div>
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $completed_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$completed_count; ?></div>
       <div class="dash-stat-label">كورسات مكتملة</div>
     </div>
   </div>

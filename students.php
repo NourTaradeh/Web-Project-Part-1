@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['search']) ? real_escape_string($conn, $_GET['search']) : '';
 
 if ($search != '') {
     $sql = "SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 
@@ -43,7 +43,7 @@ $result = $conn->query($sql);
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -51,10 +51,10 @@ $result = $conn->query($sql);
 <main class="main">
 
   <?php if (isset($_GET['msg'])) { ?>
-    <div class="alert-box alert-success"><?php echo $_GET['msg']; ?></div>
+    <div class="alert-box alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
   <?php } ?>
   <?php if (isset($_GET['err'])) { ?>
-    <div class="alert-box alert-error"><?php echo $_GET['err']; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($_GET['err']); ?></div>
   <?php } ?>
 
   <div class="top-bar">
@@ -63,7 +63,7 @@ $result = $conn->query($sql);
   </div>
 
   <form method="get">
-    <input class="search-bar" type="text" name="search" placeholder="ابحث بالاسم أو البريد أو الرقم الجامعي..." value="<?php echo $search; ?>">
+    <input class="search-bar" type="text" name="search" placeholder="ابحث بالاسم أو البريد أو الرقم الجامعي..." value="<?php echo htmlspecialchars($search); ?>">
   </form>
 
   <div class="table-wrap">
@@ -81,15 +81,15 @@ $result = $conn->query($sql);
       <?php } else { ?>
         <?php while ($row = $result->fetch_assoc()) { ?>
           <tr>
-            <td><?php echo $row['name']; ?></td>
-            <td><?php echo $row['student_num'] ? $row['student_num'] : '-'; ?></td>
-            <td><?php echo $row['email']; ?></td>
-            <td><?php echo $row['major'] ? $row['major'] : '-'; ?></td>
+            <td><?php echo htmlspecialchars($row['name']); ?></td>
+            <td><?php echo htmlspecialchars($row['student_num'] ? $row['student_num'] : '-'); ?></td>
+            <td><?php echo htmlspecialchars($row['email']); ?></td>
+            <td><?php echo htmlspecialchars($row['major'] ? $row['major'] : '-'); ?></td>
             <td><span class="badge"><?php echo $row['regs_count']; ?></span></td>
             <td>
               <div class="actions">
-                <a href="update_student.php?id=<?php echo $row['id']; ?>"><button class="btn btn-blue btn-sm">تعديل</button></a>
-                <a href="delete_student.php?id=<?php echo $row['id']; ?>" onclick="return confirm('هل أنت متأكد من حذف هذا الطالب؟')"><button class="btn btn-red btn-sm">حذف</button></a>
+                <a href="update_student.php?id=<?php echo (int)$row['id']; ?>"><button class="btn btn-blue btn-sm">تعديل</button></a>
+                <a href="delete_student.php?id=<?php echo (int)$row['id']; ?>" onclick="return confirm('هل أنت متأكد من حذف هذا الطالب؟')"><button class="btn btn-red btn-sm">حذف</button></a>
               </div>
             </td>
           </tr>

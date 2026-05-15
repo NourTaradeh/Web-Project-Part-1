@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'student') {
 include("db.php");
 
 $student_id = $_SESSION['user_id'];
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['search']) ? real_escape_string($conn, $_GET['search']) : '';
 
 $comp_result = $conn->query("SELECT course_id FROM completed_courses WHERE student_id = $student_id");
 $completed_ids = [];
@@ -47,7 +47,7 @@ while ($row = $courses_result->fetch_assoc()) {
     <a class="nav-tab" href="my_courses.php">كورساتي</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -55,16 +55,16 @@ while ($row = $courses_result->fetch_assoc()) {
 <main class="main">
 
   <?php if (isset($_GET['msg'])) { ?>
-    <div class="alert-box alert-success"><?php echo $_GET['msg']; ?></div>
+    <div class="alert-box alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
   <?php } ?>
   <?php if (isset($_GET['err'])) { ?>
-    <div class="alert-box alert-error"><?php echo $_GET['err']; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($_GET['err']); ?></div>
   <?php } ?>
 
   <div class="page-title">الكورسات المتاحة</div>
 
   <form method="get">
-    <input class="search-bar" type="text" name="search" placeholder="ابحث باسم الكورس أو الكود..." value="<?php echo $search; ?>">
+    <input class="search-bar" type="text" name="search" placeholder="ابحث باسم الكورس أو الكود..." value="<?php echo htmlspecialchars($search); ?>">
   </form>
 
   <?php if (count($courses) == 0) { ?>
@@ -109,14 +109,14 @@ while ($row = $courses_result->fetch_assoc()) {
         ?>
 
         <div class="course-card">
-          <span class="course-code"><?php echo $c['code']; ?></span>
-          <div class="course-name"><?php echo $c['name_ar']; ?></div>
-          <div class="course-desc"><?php echo $c['desc']; ?></div>
+          <span class="course-code"><?php echo htmlspecialchars($c['code']); ?></span>
+          <div class="course-name"><?php echo htmlspecialchars($c['name_ar']); ?></div>
+          <div class="course-desc"><?php echo htmlspecialchars($c['desc']); ?></div>
           <div>
             <div class="progress-label"><?php echo $seats_left; ?> / <?php echo $c['capacity']; ?> مقعد متبقي</div>
             <div class="progress-bar"><div class="progress-fill <?php echo $fill_color; ?>" style="width:<?php echo $pct; ?>%"></div></div>
           </div>
-          <div class="course-prereq"><?php echo $prereq_text; ?></div>
+          <div class="course-prereq"><?php echo htmlspecialchars($prereq_text); ?></div>
 
           <?php if ($already_registered) { ?>
             <button class="btn btn-full" disabled>مسجل</button>
@@ -125,7 +125,7 @@ while ($row = $courses_result->fetch_assoc()) {
           <?php } elseif (!$prereqs_ok) { ?>
             <button class="btn btn-full" disabled>المتطلبات ناقصة</button>
           <?php } else { ?>
-            <a href="register_course.php?course_id=<?php echo $c['id']; ?>" onclick="return confirm('هل تريد التسجيل في <?php echo $c['name_ar']; ?>؟')">
+            <a href="register_course.php?course_id=<?php echo $c['id']; ?>" onclick="return confirm('هل تريد التسجيل في <?php echo htmlspecialchars($c['name_ar']); ?>؟')">
               <button class="btn btn-green btn-full">تسجيل</button>
             </a>
           <?php } ?>

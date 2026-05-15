@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$course_id = $_GET['course_id'];
-$prereq_id = $_GET['prereq_id'];
+$course_id = (int)$_GET['course_id'];
+$prereq_id = (int)$_GET['prereq_id'];
 
 $conn->query("DELETE FROM course_prereqs WHERE course_id = $course_id AND prereq_id = $prereq_id");
 

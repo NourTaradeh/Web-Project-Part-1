@@ -41,7 +41,7 @@ $full_count = $full_result->fetch_assoc()['cnt'];
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -51,19 +51,19 @@ $full_count = $full_result->fetch_assoc()['cnt'];
 
   <div class="dash-stats">
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $students_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$students_count; ?></div>
       <div class="dash-stat-label">عدد الطلاب</div>
     </div>
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $courses_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$courses_count; ?></div>
       <div class="dash-stat-label">عدد الكورسات</div>
     </div>
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $regs_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$regs_count; ?></div>
       <div class="dash-stat-label">عدد التسجيلات</div>
     </div>
     <div class="dash-stat-box">
-      <div class="dash-stat-num"><?php echo $full_count; ?></div>
+      <div class="dash-stat-num"><?php echo (int)$full_count; ?></div>
       <div class="dash-stat-label">كورسات ممتلئة</div>
     </div>
   </div>

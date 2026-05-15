@@ -8,10 +8,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$id = $_GET['id'];
+$id = (int)$_GET['id'];
 
 $conn->query("DELETE FROM course_prereqs WHERE course_id = $id OR prereq_id = $id");
-
 $conn->query("DELETE FROM registrations WHERE course_id = $id");
 
 $sql = "DELETE FROM courses WHERE id = $id";

@@ -18,18 +18,18 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$id = $_GET['id'];
+$id = (int)$_GET['id'];
 $result = $conn->query("SELECT * FROM courses WHERE id = $id");
 $course = $result->fetch_assoc();
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $code = strtoupper($_POST['code']);
-    $name_ar = $_POST['name_ar'];
-    $desc = $_POST['desc'];
-    $credits = $_POST['credits'];
-    $capacity = $_POST['capacity'];
+    $code = real_escape_string($conn, strtoupper($_POST['code']));
+    $name_ar = real_escape_string($conn, $_POST['name_ar']);
+    $desc = real_escape_string($conn, $_POST['desc']);
+    $credits = (int)$_POST['credits'];
+    $capacity = (int)$_POST['capacity'];
 
     $sql = "UPDATE courses SET code='$code', name_ar='$name_ar', `desc`='$desc', credits=$credits, capacity=$capacity WHERE id=$id";
     $result = $conn->query($sql);
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main class="main">
 
   <?php if ($error != "") { ?>
-    <div class="alert-box alert-error"><?php echo $error; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($error); ?></div>
   <?php } ?>
 
   <div class="page-title">تعديل الكورس</div>
@@ -70,19 +70,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="post">
       <div class="modal-body" style="padding:0">
         <label>الكود *</label>
-        <input type="text" name="code" value="<?php echo $course['code']; ?>" required>
+        <input type="text" name="code" value="<?php echo htmlspecialchars($course['code']); ?>" required>
 
         <label>اسم الكورس *</label>
-        <input type="text" name="name_ar" value="<?php echo $course['name_ar']; ?>" required>
+        <input type="text" name="name_ar" value="<?php echo htmlspecialchars($course['name_ar']); ?>" required>
 
         <label>الوصف</label>
-        <input type="text" name="desc" value="<?php echo $course['desc']; ?>">
+        <input type="text" name="desc" value="<?php echo htmlspecialchars($course['desc']); ?>">
 
         <label>الساعات</label>
-        <input type="number" name="credits" value="<?php echo $course['credits']; ?>" min="1" max="6">
+        <input type="number" name="credits" value="<?php echo (int)$course['credits']; ?>" min="1" max="6">
 
         <label>السعة</label>
-        <input type="number" name="capacity" value="<?php echo $course['capacity']; ?>" min="1">
+        <input type="number" name="capacity" value="<?php echo (int)$course['capacity']; ?>" min="1">
       </div>
       <div style="margin-top:16px;display:flex;gap:10px">
         <a href="courses.php"><button type="button" class="btn btn-gray">إلغاء</button></a>

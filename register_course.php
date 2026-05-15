@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'student') {
 
 include("db.php");
 
-$student_id = $_SESSION['user_id'];
-$course_id = $_GET['course_id'];
+$student_id = (int)$_SESSION['user_id'];
+$course_id = (int)$_GET['course_id'];
 
 $check = $conn->query("SELECT id FROM registrations WHERE student_id = $student_id AND course_id = $course_id");
 if ($check->num_rows > 0) {

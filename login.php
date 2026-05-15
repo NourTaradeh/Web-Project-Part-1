@@ -25,24 +25,28 @@ $error = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include("db.php");
 
-    $email = $_POST['email'];
+    $email = real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+    $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['name'] = $user['name'];
-        $_SESSION['role'] = $user['role'];
+        if ($password == $user['password']) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['name'] = htmlspecialchars($user['name']);
+            $_SESSION['role'] = $user['role'];
 
-        if ($user['role'] == 'admin') {
-            header("Location: admin.php");
+            if ($user['role'] == 'admin') {
+                header("Location: admin.php");
+            } else {
+                header("Location: student.php");
+            }
+            exit();
         } else {
-            header("Location: student.php");
+            $error = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
         }
-        exit();
     } else {
         $error = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
     }
@@ -55,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p>أدخل بياناتك للدخول إلى حسابك</p>
 
     <?php if ($error != "") { ?>
-      <div class="error show"><?php echo $error; ?></div>
+      <div class="error show"><?php echo htmlspecialchars($error); ?></div>
     <?php } ?>
 
     <form method="post">

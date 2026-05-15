@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$id = $_GET['id'];
+$id = (int)$_GET['id'];
 $sql = "SELECT * FROM users WHERE id = $id";
 $result = $conn->query($sql);
 $student = $result->fetch_assoc();
@@ -26,14 +26,13 @@ $student = $result->fetch_assoc();
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $student_num = $_POST['student_num'];
-    $major = $_POST['major'];
-    $year = $_POST['year'];
+    $name = real_escape_string($conn, $_POST['name']);
+    $email = real_escape_string($conn, $_POST['email']);
+    $password = real_escape_string($conn, $_POST['password']);
+    $student_num = real_escape_string($conn, $_POST['student_num']);
+    $major = real_escape_string($conn, $_POST['major']);
+    $year = (int)$_POST['year'];
 
-    
     $check = $conn->query("SELECT id FROM users WHERE email = '$email' AND id != $id");
     if ($check->num_rows > 0) {
         $error = "البريد الإلكتروني مستخدم مسبقاً";
@@ -61,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -69,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main class="main">
 
   <?php if ($error != "") { ?>
-    <div class="alert-box alert-error"><?php echo $error; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($error); ?></div>
   <?php } ?>
 
   <div class="page-title">تعديل بيانات الطالب</div>
@@ -78,19 +77,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="post">
       <div class="modal-body" style="padding:0">
         <label>الاسم الكامل *</label>
-        <input type="text" name="name" value="<?php echo $student['name']; ?>" required>
+        <input type="text" name="name" value="<?php echo htmlspecialchars($student['name']); ?>" required>
 
         <label>البريد الإلكتروني *</label>
-        <input type="email" name="email" value="<?php echo $student['email']; ?>" required>
+        <input type="email" name="email" value="<?php echo htmlspecialchars($student['email']); ?>" required>
 
         <label>كلمة المرور *</label>
-        <input type="text" name="password" value="<?php echo $student['password']; ?>" required>
+        <input type="text" name="password" value="<?php echo htmlspecialchars($student['password']); ?>" required>
 
         <label>الرقم الجامعي *</label>
-        <input type="text" name="student_num" value="<?php echo $student['student_num']; ?>" required>
+        <input type="text" name="student_num" value="<?php echo htmlspecialchars($student['student_num']); ?>" required>
 
         <label>التخصص</label>
-        <input type="text" name="major" value="<?php echo $student['major']; ?>">
+        <input type="text" name="major" value="<?php echo htmlspecialchars($student['major']); ?>">
 
         <label>السنة</label>
         <select name="year">

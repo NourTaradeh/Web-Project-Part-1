@@ -32,7 +32,7 @@ $result = $conn->query($sql);
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -40,10 +40,10 @@ $result = $conn->query($sql);
 <main class="main">
 
   <?php if (isset($_GET['msg'])) { ?>
-    <div class="alert-box alert-success"><?php echo $_GET['msg']; ?></div>
+    <div class="alert-box alert-success"><?php echo htmlspecialchars($_GET['msg']); ?></div>
   <?php } ?>
   <?php if (isset($_GET['err'])) { ?>
-    <div class="alert-box alert-error"><?php echo $_GET['err']; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($_GET['err']); ?></div>
   <?php } ?>
 
   <div class="top-bar">
@@ -66,11 +66,11 @@ $result = $conn->query($sql);
       <?php } else { ?>
         <?php while ($row = $result->fetch_assoc()) { ?>
           <tr>
-            <td><span class="badge"><?php echo $row['code']; ?></span></td>
-            <td><?php echo $row['name_ar']; ?></td>
-            <td><?php echo $row['credits']; ?></td>
-            <td><?php echo $row['capacity']; ?></td>
-            <td><?php echo $row['regs_count']; ?></td>
+            <td><span class="badge"><?php echo htmlspecialchars($row['code']); ?></span></td>
+            <td><?php echo htmlspecialchars($row['name_ar']); ?></td>
+            <td><?php echo (int)$row['credits']; ?></td>
+            <td><?php echo (int)$row['capacity']; ?></td>
+            <td><?php echo (int)$row['regs_count']; ?></td>
             <td>
               <div class="actions">
                 <a href="update_course.php?id=<?php echo $row['id']; ?>"><button class="btn btn-blue btn-sm">تعديل</button></a>
