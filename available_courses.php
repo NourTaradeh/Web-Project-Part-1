@@ -70,7 +70,7 @@ while ($row = $courses_result->fetch_assoc()) {
   <?php if (count($courses) == 0) { ?>
     <div class="empty">لا يوجد نتائج</div>
   <?php } else { ?>
-    <div class="courses-grid">
+    <div class="courses-grid" id="courses-grid">
       <?php foreach ($courses as $c) { ?>
         <?php
         
@@ -136,5 +136,46 @@ while ($row = $courses_result->fetch_assoc()) {
   <?php } ?>
 
 </main>
+
+<script>
+function loadCourses() {
+    var search = document.querySelector('.search-bar').value;
+    fetch('get_available_courses.php?search=' + encodeURIComponent(search))
+        .then(function(res) { return res.json(); })
+        .then(function(courses) {
+            var grid = document.getElementById('courses-grid');
+            var html = '';
+            if (courses.length == 0) {
+                html = '<div class="empty">لا يوجد نتائج</div>';
+            } else {
+                courses.forEach(function(c) {
+                    var fillColor = c.pct >= 90 ? 'fill-red' : (c.pct >= 60 ? 'fill-yellow' : 'fill-green');
+                    html += '<div class="course-card">';
+                    html += '<span class="course-code">' + c.code + '</span>';
+                    html += '<div class="course-name">' + c.name_ar + '</div>';
+                    html += '<div class="course-desc">' + c.desc + '</div>';
+                    html += '<div>';
+                    html += '<div class="progress-label">' + c.seats_left + ' / ' + c.capacity + ' مقعد متبقي</div>';
+                    html += '<div class="progress-bar"><div class="progress-fill ' + fillColor + '" style="width:' + c.pct + '%"></div></div>';
+                    html += '</div>';
+                    html += '<div class="course-prereq">' + c.prereq_text + '</div>';
+                    if (c.already_registered) {
+                        html += '<button class="btn btn-full" disabled>مسجل</button>';
+                    } else if (c.is_full) {
+                        html += '<button class="btn btn-full" disabled>مكتمل</button>';
+                    } else if (!c.prereqs_ok) {
+                        html += '<button class="btn btn-full" disabled>المتطلبات ناقصة</button>';
+                    } else {
+                        html += '<a href="register_course.php?course_id=' + c.id + '" onclick="return confirm('هل تريد التسجيل في ' + c.name_ar + '؟')"><button class="btn btn-green btn-full">تسجيل</button></a>';
+                    }
+                    html += '</div>';
+                });
+            }
+            grid.innerHTML = html;
+        });
+}
+
+setInterval(loadCourses, 5000);
+</script>
 </body>
 </html>
