@@ -25,9 +25,9 @@ $course = $result->fetch_assoc();
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $code = real_escape_string($conn, strtoupper($_POST['code']));
-    $name_ar = real_escape_string($conn, $_POST['name_ar']);
-    $desc = real_escape_string($conn, $_POST['desc']);
+    $code = $conn->real_escape_string(strtoupper($_POST['code']));
+    $name_ar = $conn->real_escape_string($_POST['name_ar']);
+    $desc = $conn->real_escape_string($_POST['desc']);
     $credits = (int)$_POST['credits'];
     $capacity = (int)$_POST['capacity'];
 

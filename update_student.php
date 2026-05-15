@@ -26,11 +26,11 @@ $student = $result->fetch_assoc();
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = real_escape_string($conn, $_POST['name']);
-    $email = real_escape_string($conn, $_POST['email']);
-    $password = real_escape_string($conn, $_POST['password']);
-    $student_num = real_escape_string($conn, $_POST['student_num']);
-    $major = real_escape_string($conn, $_POST['major']);
+    $name = $conn->real_escape_string($_POST['name']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = $conn->real_escape_string($_POST['password']);
+    $student_num = $conn->real_escape_string($_POST['student_num']);
+    $major = $conn->real_escape_string($_POST['major']);
     $year = (int)$_POST['year'];
 
     $check = $conn->query("SELECT id FROM users WHERE email = '$email' AND id != $id");

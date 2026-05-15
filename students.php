@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$search = isset($_GET['search']) ? real_escape_string($conn, $_GET['search']) : '';
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
 if ($search != '') {
     $sql = "SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 

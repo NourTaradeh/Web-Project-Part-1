@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'student') {
 include("db.php");
 
 $student_id = $_SESSION['user_id'];
-$search = isset($_GET['search']) ? real_escape_string($conn, $_GET['search']) : '';
+$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
 $comp_result = $conn->query("SELECT course_id FROM completed_courses WHERE student_id = $student_id");
 $completed_ids = [];
