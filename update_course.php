@@ -19,22 +19,24 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 include("db.php");
 
 $id = (int)$_GET['id'];
-$result = $conn->query("SELECT * FROM courses WHERE id = $id");
-$course = $result->fetch_assoc();
+$stmt = $conn->prepare("SELECT * FROM courses WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$course = $stmt->get_result()->fetch_assoc();
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $code = $conn->real_escape_string(strtoupper($_POST['code']));
-    $name_ar = $conn->real_escape_string($_POST['name_ar']);
-    $desc = $conn->real_escape_string($_POST['desc']);
+    $code = strtoupper($_POST['code']);
+    $name_ar = $_POST['name_ar'];
+    $desc = $_POST['desc'];
     $credits = (int)$_POST['credits'];
     $capacity = (int)$_POST['capacity'];
 
-    $sql = "UPDATE courses SET code='$code', name_ar='$name_ar', `desc`='$desc', credits=$credits, capacity=$capacity WHERE id=$id";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("UPDATE courses SET code=?, name_ar=?, `desc`=?, credits=?, capacity=? WHERE id=?");
+    $stmt->bind_param("sssiii", $code, $name_ar, $desc, $credits, $capacity, $id);
 
-    if ($result === TRUE) {
+    if ($stmt->execute()) {
         header("Location: courses.php?msg=تم تعديل الكورس بنجاح");
         exit();
     } else {

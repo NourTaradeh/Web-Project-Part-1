@@ -11,7 +11,9 @@ include("db.php");
 $course_id = (int)$_GET['course_id'];
 $prereq_id = (int)$_GET['prereq_id'];
 
-$conn->query("DELETE FROM course_prereqs WHERE course_id = $course_id AND prereq_id = $prereq_id");
+$stmt = $conn->prepare("DELETE FROM course_prereqs WHERE course_id = ? AND prereq_id = ?");
+$stmt->bind_param("ii", $course_id, $prereq_id);
+$stmt->execute();
 
 header("Location: prereqs.php?course_id=$course_id&msg=تم حذف المتطلب");
 exit();

@@ -18,19 +18,21 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 
 include("db.php");
 
-$search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
 if ($search != '') {
-    $sql = "SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 
+    $like = '%' . $search . '%';
+    $stmt = $conn->prepare("SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 
             FROM users u 
-            WHERE u.role = 'student' AND (u.name LIKE '%$search%' OR u.email LIKE '%$search%' OR u.student_num LIKE '%$search%')";
+            WHERE u.role = 'student' AND (u.name LIKE ? OR u.email LIKE ? OR u.student_num LIKE ?)");
+    $stmt->bind_param("sss", $like, $like, $like);
 } else {
-    $sql = "SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 
-            FROM users u 
-            WHERE u.role = 'student'";
+    $stmt = $conn->prepare("SELECT u.*, (SELECT COUNT(*) FROM registrations r WHERE r.student_id = u.id) as regs_count 
+            FROM users u WHERE u.role = 'student'");
 }
 
-$result = $conn->query($sql);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <nav class="navbar">
@@ -85,7 +87,7 @@ $result = $conn->query($sql);
             <td><?php echo htmlspecialchars($row['student_num'] ? $row['student_num'] : '-'); ?></td>
             <td><?php echo htmlspecialchars($row['email']); ?></td>
             <td><?php echo htmlspecialchars($row['major'] ? $row['major'] : '-'); ?></td>
-            <td><span class="badge"><?php echo $row['regs_count']; ?></span></td>
+            <td><span class="badge"><?php echo (int)$row['regs_count']; ?></span></td>
             <td>
               <div class="actions">
                 <a href="update_student.php?id=<?php echo (int)$row['id']; ?>"><button class="btn btn-blue btn-sm">تعديل</button></a>

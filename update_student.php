@@ -19,28 +19,33 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
 include("db.php");
 
 $id = (int)$_GET['id'];
-$sql = "SELECT * FROM users WHERE id = $id";
-$result = $conn->query($sql);
-$student = $result->fetch_assoc();
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$student = $stmt->get_result()->fetch_assoc();
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $password = $conn->real_escape_string($_POST['password']);
-    $student_num = $conn->real_escape_string($_POST['student_num']);
-    $major = $conn->real_escape_string($_POST['major']);
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $student_num = $_POST['student_num'];
+    $major = $_POST['major'];
     $year = (int)$_POST['year'];
 
-    $check = $conn->query("SELECT id FROM users WHERE email = '$email' AND id != $id");
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+    $check->bind_param("si", $email, $id);
+    $check->execute();
+    $check->store_result();
+
     if ($check->num_rows > 0) {
         $error = "البريد الإلكتروني مستخدم مسبقاً";
     } else {
-        $sql = "UPDATE users SET name='$name', email='$email', password='$password', student_num='$student_num', major='$major', year=$year WHERE id=$id";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare("UPDATE users SET name=?, email=?, password=?, student_num=?, major=?, year=? WHERE id=?");
+        $stmt->bind_param("sssssii", $name, $email, $password, $student_num, $major, $year, $id);
 
-        if ($result === TRUE) {
+        if ($stmt->execute()) {
             header("Location: students.php?msg=تم تعديل الطالب بنجاح");
             exit();
         } else {

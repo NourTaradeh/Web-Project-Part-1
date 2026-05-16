@@ -10,13 +10,18 @@ include("db.php");
 
 $id = (int)$_GET['id'];
 
-$conn->query("DELETE FROM course_prereqs WHERE course_id = $id OR prereq_id = $id");
-$conn->query("DELETE FROM registrations WHERE course_id = $id");
+$stmt = $conn->prepare("DELETE FROM course_prereqs WHERE course_id = ? OR prereq_id = ?");
+$stmt->bind_param("ii", $id, $id);
+$stmt->execute();
 
-$sql = "DELETE FROM courses WHERE id = $id";
-$result = $conn->query($sql);
+$stmt = $conn->prepare("DELETE FROM registrations WHERE course_id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
-if ($result === TRUE) {
+$stmt = $conn->prepare("DELETE FROM courses WHERE id = ?");
+$stmt->bind_param("i", $id);
+
+if ($stmt->execute()) {
     header("Location: courses.php?msg=تم حذف الكورس بنجاح");
 } else {
     header("Location: courses.php?err=حدث خطأ أثناء الحذف");

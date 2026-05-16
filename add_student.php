@@ -26,17 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $student_num = $_POST['student_num'];
     $major = $_POST['major'];
-    $year = $_POST['year'];
+    $year = (int)$_POST['year'];
 
-    // تحقق اذا البريد مستخدم
-    $check = $conn->query("SELECT id FROM users WHERE email = '$email'");
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $check->bind_param("s", $email);
+    $check->execute();
+    $check->store_result();
+
     if ($check->num_rows > 0) {
         $error = "البريد الإلكتروني مستخدم مسبقاً";
     } else {
-        $sql = "INSERT INTO users (role, name, email, password, student_num, major, year) VALUES ('student', '$name', '$email', '$password', '$student_num', '$major', $year)";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare("INSERT INTO users (role, name, email, password, student_num, major, year) VALUES ('student', ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $name, $email, $password, $student_num, $major, $year);
 
-        if ($result === TRUE) {
+        if ($stmt->execute()) {
             header("Location: students.php?msg=تم إضافة الطالب بنجاح");
             exit();
         } else {
@@ -56,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -64,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main class="main">
 
   <?php if ($error != "") { ?>
-    <div class="alert-box alert-error"><?php echo $error; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($error); ?></div>
   <?php } ?>
 
   <div class="page-title">إضافة طالب جديد</div>

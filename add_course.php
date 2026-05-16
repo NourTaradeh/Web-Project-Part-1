@@ -24,13 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $code = strtoupper($_POST['code']);
     $name_ar = $_POST['name_ar'];
     $desc = $_POST['desc'];
-    $credits = $_POST['credits'];
-    $capacity = $_POST['capacity'];
+    $credits = (int)$_POST['credits'];
+    $capacity = (int)$_POST['capacity'];
 
-    $sql = "INSERT INTO courses (code, name_ar, `desc`, credits, capacity) VALUES ('$code', '$name_ar', '$desc', $credits, $capacity)";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("INSERT INTO courses (code, name_ar, `desc`, credits, capacity) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssii", $code, $name_ar, $desc, $credits, $capacity);
 
-    if ($result === TRUE) {
+    if ($stmt->execute()) {
         header("Location: courses.php?msg=تم إضافة الكورس بنجاح");
         exit();
     } else {
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-tab" href="registrations.php">التسجيلات</a>
   </div>
   <div class="nav-left">
-    <span class="nav-username"><?php echo $_SESSION['name']; ?></span>
+    <span class="nav-username"><?php echo htmlspecialchars($_SESSION['name']); ?></span>
     <a href="logout.php"><button class="btn-logout">خروج</button></a>
   </div>
 </nav>
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <main class="main">
 
   <?php if ($error != "") { ?>
-    <div class="alert-box alert-error"><?php echo $error; ?></div>
+    <div class="alert-box alert-error"><?php echo htmlspecialchars($error); ?></div>
   <?php } ?>
 
   <div class="page-title">إضافة كورس جديد</div>

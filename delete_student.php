@@ -10,12 +10,14 @@ include("db.php");
 
 $id = (int)$_GET['id'];
 
-$conn->query("DELETE FROM registrations WHERE student_id = $id");
+$stmt = $conn->prepare("DELETE FROM registrations WHERE student_id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
-$sql = "DELETE FROM users WHERE id = $id";
-$result = $conn->query($sql);
+$stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+$stmt->bind_param("i", $id);
 
-if ($result === TRUE) {
+if ($stmt->execute()) {
     header("Location: students.php?msg=تم حذف الطالب بنجاح");
 } else {
     header("Location: students.php?err=حدث خطأ أثناء الحذف");

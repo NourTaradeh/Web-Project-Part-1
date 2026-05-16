@@ -11,16 +11,20 @@ include("db.php");
 $student_id = (int)$_SESSION['user_id'];
 $reg_id = (int)$_GET['reg_id'];
 
-$check = $conn->query("SELECT id FROM registrations WHERE id = $reg_id AND student_id = $student_id");
+$check = $conn->prepare("SELECT id FROM registrations WHERE id = ? AND student_id = ?");
+$check->bind_param("ii", $reg_id, $student_id);
+$check->execute();
+$check->store_result();
+
 if ($check->num_rows == 0) {
     header("Location: my_courses.php");
     exit();
 }
 
-$sql = "DELETE FROM registrations WHERE id = $reg_id";
-$result = $conn->query($sql);
+$stmt = $conn->prepare("DELETE FROM registrations WHERE id = ?");
+$stmt->bind_param("i", $reg_id);
 
-if ($result === TRUE) {
+if ($stmt->execute()) {
     header("Location: my_courses.php?msg=تم الغاء التسجيل بنجاح");
 } else {
     header("Location: my_courses.php?err=حدث خطأ");
