@@ -61,7 +61,9 @@ $result = $conn->query($sql);
         <th>المسجّلون</th>
         <th>إجراء</th>
       </tr>
-      <tbody id="courses-tbody">
+      <?php if ($result->num_rows == 0) { ?>
+        <tr><td colspan="6"><div class="empty">لا يوجد كورسات</div></td></tr>
+      <?php } else { ?>
         <?php while ($row = $result->fetch_assoc()) { ?>
           <tr>
             <td><span class="badge"><?php echo htmlspecialchars($row['code']); ?></span></td>
@@ -77,42 +79,10 @@ $result = $conn->query($sql);
             </td>
           </tr>
         <?php } ?>
-      </tbody>
+      <?php } ?>
     </table>
   </div>
 
 </main>
-
-<script>
-function loadCourses() {
-    fetch('get_courses.php')
-        .then(function(res) { return res.json(); })
-        .then(function(courses) {
-            var tbody = document.getElementById('courses-tbody');
-            var html = '';
-            if (courses.length == 0) {
-                html = '<tr><td colspan="6"><div class="empty">لا يوجد كورسات</div></td></tr>';
-            } else {
-                courses.forEach(function(row) {
-                    html += '<tr>';
-                    html += '<td><span class="badge">' + row.code + '</span></td>';
-                    html += '<td>' + row.name_ar + '</td>';
-                    html += '<td>' + row.credits + '</td>';
-                    html += '<td>' + row.capacity + '</td>';
-                    html += '<td>' + row.regs_count + '</td>';
-                    html += '<td><div class="actions">';
-                    html += '<a href="update_course.php?id=' + row.id + '"><button class="btn btn-blue btn-sm">تعديل</button></a>';
-                    html += '<a href="delete_course.php?id=' + row.id + '" onclick="return confirm(\'هل أنت متأكد من حذف هذا الكورس؟\')"><button class="btn btn-red btn-sm">حذف</button></a>';
-                    html += '</div></td>';
-                    html += '</tr>';
-                });
-            }
-            tbody.innerHTML = html;
-        });
-}
-
-setInterval(loadCourses, 5000);
-</script>
-
 </body>
 </html>
